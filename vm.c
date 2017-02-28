@@ -36,16 +36,30 @@ std::string names[] = {"halt", "set", "push", "pop", "eq", "gt", "jmp", "jnz", "
 void print_context(uint16_t mem) {
 	std::cout << mem << "\t" << names[prog[mem]] << "\t";
 	for (size_t i = 1; i <= params[prog[mem]]; ++i) {
-		std::cout << prog[mem+i] << "\t";
+		uint16_t val = prog[mem+i];
+		if (val < 32768) {
+			std::cout << val << "\t";
+		} else {
+			std::cout << "reg " << (val-32768) << "\t";
+		}
 	}
 	std::cout << std::endl;
 }
 
 void execute() {
+	int i = 0;
 	while (1) {
 		uint16_t op = prog[IP++];
 		if (op != 19) {
 			print_context(IP-1);
+			i++;
+		}
+		if(i % 5 == 0) {
+			std::cout << std::endl;
+			for(size_t i = 0; i < 8; ++i) {
+				std::cout << "reg " << i << "\t" << REG[i] << std::endl;
+			}
+			std::cout << std::endl;
 		}
 		if (op == 0) {
 			// halt
