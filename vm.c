@@ -8,7 +8,7 @@ uint16_t IP;
 uint16_t REG[8];
 std::stack<uint16_t> STACK;
 
-uint16_t to_val(uint16_t num) {
+uint16_t read_val(uint16_t num) {
 	if (num > 32775) {
 		std::cout << "Invalid memory location" << std::endl;
 		return 0xFFFF;
@@ -19,43 +19,53 @@ uint16_t to_val(uint16_t num) {
 	}
 }
 
+void write_val(uint16_t loc, uint16_t val) {
+	if (loc > 32775) {
+		std::cout << "Invalid memory location" << std::endl;
+	} else if (loc > 32767) {
+		REG[loc - 32768] = val;
+	} else {
+		prog[loc] = val;
+	}
+}
+
 void execute() {
 	while (1) {
 		uint16_t op = prog[IP++];
 		if (op == 0) {
 			// halt
-			std::cout << "halt at " << (IP-1) << std::endl;
 			break;
 		} else if (op == 1) {
 			uint16_t reg = prog[IP++] - 32768;
 			REG[reg] = prog[IP++];
-			std::cout << "load " << REG[reg] << " into reg " << reg << std::endl;
 		} else if (op == 6) {
 			// jmp
-			std::cout << "jmp at " << (IP-1) << " to " << to_val(prog[IP]) << std::endl;
-			IP = to_val(prog[IP]);
+			IP = read_val(prog[IP]);
 		} else if (op == 7) {
 			// jnz
-			uint16_t val = to_val(prog[IP++]);
-			uint16_t loc = to_val(prog[IP++]);
-			std::cout << "jnz " << val << " at " << (IP-1) << " to " << loc << std::endl;
+			uint16_t val = read_val(prog[IP++]);
+			uint16_t loc = read_val(prog[IP++]);
 			if (val != 0) {
 				IP = loc;
 			}
 		} else if (op == 8) {
 			// jz
-			uint16_t val = to_val(prog[IP++]);
-			uint16_t loc = to_val(prog[IP++]);
-			std::cout << "jz  " << val << " at " << (IP-1) << " to " << loc << std::endl;
+			uint16_t val = read_val(prog[IP++]);
+			uint16_t loc = read_val(prog[IP++]);
 			if (val == 0) {
 				IP = loc;
 			}
+		} else if (op == 9) {
+			// add
+			uint16_t loc = prog[IP++];
+			uint16_t val1 = prog[IP++];
+			uint16_t val2 = prog[IP++];
+			write_val(loc, val1 + val2);
 		} else if (op == 19) {
 			// print ascii char
 			std::cout << (char)prog[IP++];
 		} else if (op == 21) {
 			// noop
-			std::cout << "noop at " << (IP-1) << std::endl;
 			continue;
 		} else if (op > 21) {
 			std::cout << "Invalid opcode" << std::endl;
