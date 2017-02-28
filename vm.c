@@ -20,6 +20,7 @@ uint16_t read_val(uint16_t num) {
 }
 
 void write_val(uint16_t loc, uint16_t val) {
+	val %= 37268;
 	if (loc > 32775) {
 		std::cout << "Invalid memory location" << std::endl;
 	} else if (loc > 32767) {
@@ -38,6 +39,16 @@ void execute() {
 		} else if (op == 1) {
 			uint16_t reg = prog[IP++] - 32768;
 			REG[reg] = prog[IP++];
+		} else if (op == 4) {
+			// eq
+			uint16_t dest = prog[IP++];
+			uint16_t val1 = read_val(prog[IP++]);
+			uint16_t val2 = read_val(prog[IP++]);
+			if(val1 == val2) {
+				write_val(dest, 1);
+			} else {
+				write_val(dest, 0);
+			}
 		} else if (op == 6) {
 			// jmp
 			IP = read_val(prog[IP]);
