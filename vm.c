@@ -89,6 +89,23 @@ void execute() {
 			uint16_t val1 = prog[IP++];
 			uint16_t val2 = prog[IP++];
 			write_val(loc, val1 + val2);
+		} else if (op == 12) {
+			// and
+			uint16_t dest = prog[IP++];
+			uint16_t val1 = read_val(prog[IP++]);
+			uint16_t val2 = read_val(prog[IP++]);
+			write_val(dest, val1 & val2);
+		}  else if (op == 13) {
+			// or
+			uint16_t dest = prog[IP++];
+			uint16_t val1 = read_val(prog[IP++]);
+			uint16_t val2 = read_val(prog[IP++]);
+			write_val(dest, val1 | val2);
+		}  else if (op == 14) {
+			// not
+			uint16_t dest = prog[IP++];
+			uint16_t val = read_val(prog[IP++]);
+			write_val(dest, val ^ 0x7FFF);
 		} else if (op == 19) {
 			// print ascii char
 			std::cout << (char)prog[IP++];
