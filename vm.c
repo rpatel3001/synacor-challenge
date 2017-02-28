@@ -39,12 +39,19 @@ void execute() {
 		} else if (op == 1) {
 			uint16_t reg = prog[IP++] - 32768;
 			REG[reg] = prog[IP++];
+		} else if (op == 2) {
+			// push
+			STACK.push(read_val(prog[IP++]));
+		} else if (op == 3) {
+			// pop
+			write_val(prog[IP++], STACK.top());
+			STACK.pop();
 		} else if (op == 4) {
 			// eq
 			uint16_t dest = prog[IP++];
 			uint16_t val1 = read_val(prog[IP++]);
 			uint16_t val2 = read_val(prog[IP++]);
-			if(val1 == val2) {
+			if (val1 == val2) {
 				write_val(dest, 1);
 			} else {
 				write_val(dest, 0);
