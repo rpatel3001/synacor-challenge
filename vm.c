@@ -26,6 +26,10 @@ void execute() {
 			// halt
 			std::cout << "halt at " << (IP-1) << std::endl;
 			break;
+		} else if (op == 1) {
+			uint16_t reg = prog[IP++] - 32768;
+			REG[reg] = prog[IP++];
+			std::cout << "load " << REG[reg] << " into reg " << reg << std::endl;
 		} else if (op == 6) {
 			// jmp
 			std::cout << "jmp at " << (IP-1) << " to " << to_val(prog[IP]) << std::endl;
