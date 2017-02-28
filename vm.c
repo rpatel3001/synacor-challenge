@@ -56,6 +56,16 @@ void execute() {
 			} else {
 				write_val(dest, 0);
 			}
+		} else if (op == 5) {
+			// greater than
+			uint16_t dest = prog[IP++];
+			uint16_t val1 = read_val(prog[IP++]);
+			uint16_t val2 = read_val(prog[IP++]);
+			if (val1 > val2) {
+				write_val(dest, 1);
+			} else {
+				write_val(dest, 0);
+			}
 		} else if (op == 6) {
 			// jmp
 			IP = read_val(prog[IP]);
