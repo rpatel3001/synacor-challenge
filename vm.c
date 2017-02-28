@@ -118,6 +118,16 @@ void execute() {
 			uint16_t dest = prog[IP++];
 			uint16_t val = read_val(prog[IP++]);
 			write_val(dest, val ^ 0x7FFF);
+		} else if (op == 15) {
+			// rmem
+			uint16_t dest = prog[IP++];
+			uint16_t val = prog[read_val(prog[IP++])];
+			write_val(dest, val);
+		}  else if (op == 16) {
+			// wmem
+			uint16_t dest = read_val(prog[IP++]);
+			uint16_t val = read_val(prog[IP++]);
+			write_val(dest, val);
 		} else if (op == 17) {
 			// call
 			STACK.push(IP+1);
