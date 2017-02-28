@@ -1,2 +1,2 @@
 vm: vm.c
-	g++ vm.c -o vm
+	g++ -ggdb3 vm.c -o vm
