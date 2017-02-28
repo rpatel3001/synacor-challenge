@@ -88,7 +88,19 @@ void execute() {
 			uint16_t loc = prog[IP++];
 			uint16_t val1 = prog[IP++];
 			uint16_t val2 = prog[IP++];
-			write_val(loc, val1 + val2);
+			write_val(loc, (val1 + val2)%32768);
+		} else if (op == 10) {
+			// mult
+			uint16_t dest = prog[IP++];
+			uint16_t val1 = read_val(prog[IP++]);
+			uint16_t val2 = read_val(prog[IP++]);
+			write_val(dest, val1*val2%32768);
+		} else if (op == 11) {
+			// mod
+			uint16_t dest = prog[IP++];
+			uint16_t val1 = read_val(prog[IP++]);
+			uint16_t val2 = read_val(prog[IP++]);
+			write_val(dest, val1%val2);
 		} else if (op == 12) {
 			// and
 			uint16_t dest = prog[IP++];
@@ -106,6 +118,10 @@ void execute() {
 			uint16_t dest = prog[IP++];
 			uint16_t val = read_val(prog[IP++]);
 			write_val(dest, val ^ 0x7FFF);
+		} else if (op == 17) {
+			// call
+			STACK.push(IP+1);
+			IP = read_val(prog[IP]);
 		} else if (op == 19) {
 			// print ascii char
 			std::cout << (char)prog[IP++];
@@ -113,6 +129,7 @@ void execute() {
 			// noop
 			continue;
 		} else if (op > 21) {
+			// invalid
 			std::cout << "Invalid opcode" << std::endl;
 		} else {
 			// not yet implemented
