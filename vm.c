@@ -150,9 +150,14 @@ void execute() {
 			write_val(dest, val);
 		} else if (op == 17) {
 			// call
-			std::cout << "call from " << (IP-1) << std::endl;
 			STACK.push(IP+1);
+			std::cout << STACK.top() << std::endl;
 			IP = read_val(prog[IP]);
+		} else if (op == 18) {
+			// ret
+			uint16_t addr = STACK.top();
+			STACK.pop();
+			IP = addr;
 		} else if (op == 19) {
 			// print ascii char
 			std::cout << (char)prog[IP++];
