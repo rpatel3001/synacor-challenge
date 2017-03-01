@@ -35,7 +35,7 @@ int params[] = {0, 2, 1, 1, 3, 3, 1, 2, 2, 3, 3, 3, 3, 3, 2, 2, 2, 1, 0, 1, 1, 0
 std::string ops[] = {"halt", "set ", "push", "pop ", "eq  ", "gt  ", "jmp ", "jt  ", "jf  ", "add ", "mult", "mod ", "and ", "or  ", "not ", "rmem", "wmem", "call", "ret ", "out ", "in  ", "noop"};
 void print_context(uint16_t mem) {
 	std::cout << mem << "\t" << ops[prog[mem]] << "\t";
-	for (size_t i = 10; i <= params[prog[mem]]; ++i) {
+	for (size_t i = 1; i <= params[prog[mem]]; ++i) {
 		uint16_t val = prog[mem+i];
 		if (val < 32768) {
 			std::cout << val << "\t";
@@ -50,10 +50,9 @@ void execute() {
 	int i = 0;
 	while (1) {
 		uint16_t op = prog[IP++];
-		if (op != 19) {
-			if(DEBUG) {
-				if (i++ % 1 == 0) {
-					std::cout << std::endl;
+		if (1) {
+			if (DEBUG) {
+				if (0 == 0) {
 					for (size_t i = 0; i < 8; ++i) {
 						std::cout << "reg " << i << "\t" << REG[i] << std::endl;
 					}
@@ -209,7 +208,7 @@ int main(int argc, char** argv) {
 		return -1;
 	}
 
-	DEBUG = argc == 3;
+	DEBUG = false;
 
 	prog_file.open(argv[1], std::ios::in | std::ios::binary);
 	// take advantage of x86 being little endian and read raw bytes into an array of uint16_t
