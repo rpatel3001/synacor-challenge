@@ -32,9 +32,9 @@ void write_val(uint16_t loc, uint16_t val) {
 }
 
 int params[] = {0, 2, 1, 1, 3, 3, 1, 2, 2, 3, 3, 3, 3, 3, 2, 2, 2, 1, 0, 1, 1, 0};
-std::string names[] = {"halt", "set", "push", "pop", "eq", "gt", "jmp", "jnz", "jz", "add", "mult", "mod", "and", "or", "not", "rmem", "wmem", "call", "ret", "out", "in", "noop"};
+std::string ops[] = {"halt", "set ", "push", "pop ", "eq  ", "gt  ", "jmp ", "jt  ", "jf  ", "add ", "mult", "mod ", "and ", "or  ", "not ", "rmem", "wmem", "call", "ret ", "out ", "in  ", "noop"};
 void print_context(uint16_t mem) {
-	std::cout << mem << "\t" << names[prog[mem]] << "\t";
+	std::cout << mem << "\t" << ops[prog[mem]] << "\t";
 	for (size_t i = 10; i <= params[prog[mem]]; ++i) {
 		uint16_t val = prog[mem+i];
 		if (val < 32768) {
@@ -184,13 +184,9 @@ void execute() {
 			write_val(dest, x);
 		} else if (op == 21) {
 			// noop
-		} else if (op > 21) {
-			// invalid
-			std::cout << "Invalid opcode" << std::endl;
 		} else {
-			// not yet implemented
-			std::cout << "instruction '" << names[op] << "' not implemented" << std::endl;
-			break;
+			// invalid
+			std::cout << "Invalid opcode " << op << std::endl;
 		}
 	}
 	std::cout << "Program finished at instruction " << (IP-1) << std::endl;
@@ -218,9 +214,6 @@ int main(int argc, char** argv) {
 	prog_file.open(argv[1], std::ios::in | std::ios::binary);
 	// take advantage of x86 being little endian and read raw bytes into an array of uint16_t
 	prog_file.read((char*)prog, prog_stat.st_size);
-	for (size_t i = 0; i < prog_stat.st_size/2; ++i) {
-		//std::cout << i << "\t" << prog[i] << std::endl;
-	}
-	IP=0;
+	prog_file.close();
 	execute();
 }
