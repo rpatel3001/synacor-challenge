@@ -8,6 +8,7 @@ uint16_t prog[32768];
 uint16_t IP;
 uint16_t REG[8];
 std::stack<uint16_t> STACK;
+bool DEBUG;
 
 uint16_t read_val(uint16_t num) {
 	if (num > 32775) {
@@ -21,7 +22,6 @@ uint16_t read_val(uint16_t num) {
 }
 
 void write_val(uint16_t loc, uint16_t val) {
-	val %= 37268;
 	if (loc > 32775) {
 		std::cout << "Invalid memory location" << std::endl;
 	} else if (loc > 32767) {
@@ -35,7 +35,7 @@ int params[] = {0, 2, 1, 1, 3, 3, 1, 2, 2, 3, 3, 3, 3, 3, 2, 2, 2, 1, 0, 1, 1, 0
 std::string names[] = {"halt", "set", "push", "pop", "eq", "gt", "jmp", "jnz", "jz", "add", "mult", "mod", "and", "or", "not", "rmem", "wmem", "call", "ret", "out", "in", "noop"};
 void print_context(uint16_t mem) {
 	std::cout << mem << "\t" << names[prog[mem]] << "\t";
-	for (size_t i = 1; i <= params[prog[mem]]; ++i) {
+	for (size_t i = 10; i <= params[prog[mem]]; ++i) {
 		uint16_t val = prog[mem+i];
 		if (val < 32768) {
 			std::cout << val << "\t";
@@ -51,16 +51,18 @@ void execute() {
 	while (1) {
 		uint16_t op = prog[IP++];
 		if (op != 19) {
-			print_context(IP-1);
-			i++;
-		}
-		if(i % 5 == 0) {
-			std::cout << std::endl;
-			for(size_t i = 0; i < 8; ++i) {
-				std::cout << "reg " << i << "\t" << REG[i] << std::endl;
+			if(DEBUG) {
+				if (i++ % 1 == 0) {
+					std::cout << std::endl;
+					for (size_t i = 0; i < 8; ++i) {
+						std::cout << "reg " << i << "\t" << REG[i] << std::endl;
+					}
+					std::cout << std::endl;
+				}
+				print_context(IP-1);
 			}
-			std::cout << std::endl;
 		}
+
 		if (op == 0) {
 			// halt
 			std::cout << 0 << std::endl;
@@ -68,7 +70,7 @@ void execute() {
 		} else if (op == 1) {
 			// set
 			uint16_t reg = prog[IP++] - 32768;
-			REG[reg] = prog[IP++];
+			REG[reg] = read_val(prog[IP++]);
 		} else if (op == 2) {
 			// push
 			STACK.push(read_val(prog[IP++]));
@@ -119,16 +121,16 @@ void execute() {
 			}
 		} else if (op == 9) {
 			// add
-			uint16_t loc = prog[IP++];
-			uint16_t val1 = prog[IP++];
-			uint16_t val2 = prog[IP++];
-			write_val(loc, (val1 + val2)%32768);
+			uint16_t dest = prog[IP++];
+			uint16_t val1 = read_val(prog[IP++]);
+			uint16_t val2 = read_val(prog[IP++]);
+			write_val(dest, (val1 + val2) % 32768);
 		} else if (op == 10) {
 			// mult
 			uint16_t dest = prog[IP++];
 			uint16_t val1 = read_val(prog[IP++]);
 			uint16_t val2 = read_val(prog[IP++]);
-			write_val(dest, val1*val2%32768);
+			write_val(dest, (val1 * val2) % 32768);
 		} else if (op == 11) {
 			// mod
 			uint16_t dest = prog[IP++];
@@ -155,17 +157,16 @@ void execute() {
 		} else if (op == 15) {
 			// rmem
 			uint16_t dest = prog[IP++];
-			uint16_t val = prog[read_val(prog[IP++])];
-			write_val(dest, val);
+			uint16_t val = read_val(prog[IP++]);
+			write_val(dest, prog[val]);
 		}  else if (op == 16) {
 			// wmem
 			uint16_t dest = read_val(prog[IP++]);
 			uint16_t val = read_val(prog[IP++]);
-			write_val(dest, val);
+			prog[dest] = val;
 		} else if (op == 17) {
 			// call
 			STACK.push(IP+1);
-			std::cout << STACK.top() << std::endl;
 			IP = read_val(prog[IP]);
 		} else if (op == 18) {
 			// ret
@@ -174,7 +175,13 @@ void execute() {
 			IP = addr;
 		} else if (op == 19) {
 			// print ascii char
-			std::cout << (char)prog[IP++];
+			std::cout << (char)read_val(prog[IP++]);
+		} else if (op == 20) {
+			// read ascii char
+			uint16_t dest = prog[IP++];
+			char x;
+			std::cin.get(x);
+			write_val(dest, x);
 		} else if (op == 21) {
 			// noop
 		} else if (op > 21) {
@@ -193,7 +200,7 @@ int main(int argc, char** argv) {
 	struct stat prog_stat;
 	std::ifstream prog_file;
 
-	if (argc != 2) {
+	if (argc < 2) {
 		std::cout << "Usage: ./vm binary_file" << std::endl;
 		return -1;
 	}
@@ -205,6 +212,9 @@ int main(int argc, char** argv) {
 		std::cout << "Program size too big" << std::endl;
 		return -1;
 	}
+
+	DEBUG = argc == 3;
+
 	prog_file.open(argv[1], std::ios::in | std::ios::binary);
 	// take advantage of x86 being little endian and read raw bytes into an array of uint16_t
 	prog_file.read((char*)prog, prog_stat.st_size);
