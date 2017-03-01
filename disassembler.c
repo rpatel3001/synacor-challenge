@@ -78,10 +78,9 @@ void disassemble(size_t size) {
 			uint16_t addr = prog[++i];
 			sout << "call\t";
 			if (funcs.find(addr) == funcs.end()) {
-				sout << "func" << (func_count++);
-			} else {
-				sout << funcs[addr];
+				funcs[addr] = "func" + std::to_string((func_count++));
 			}
+			sout << funcs[addr];
 		} else {
 			sout << ops[op] << "\t";
 			for (size_t j = 1; j <= params[op]; ++j) {
@@ -126,7 +125,8 @@ int main(int argc, char** argv) {
 	for (auto line : assem) {
 		if (labels.find(line.first) != labels.end()) {
 			outfile << labels[line.first] << ":" << std::endl;
-		} else if (funcs.find(line.first) != funcs.end()) {
+		}
+		if (funcs.find(line.first) != funcs.end()) {
 			outfile << funcs[line.first] << ":" << std::endl;
 		}
 		outfile << "\t" << line.first << "\t" << line.second << std::endl;
