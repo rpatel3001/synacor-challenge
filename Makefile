@@ -1,7 +1,7 @@
 all: vm disassembler
 
-vm: vm.c
-	g++ -ggdb3 vm.c -o vm
+vm: vm.cpp
+	g++ -ggdb3 vm.cpp -o vm
 
-disassembler: disassembler.c
-	g++ -ggdb3 disassembler.c -o disassembler
+disassembler: disassembler.cpp
+	g++ -ggdb3 disassembler.cpp -o disassembler
