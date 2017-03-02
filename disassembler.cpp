@@ -44,10 +44,14 @@ void disassemble(size_t size) {
 		} else if (op == 6) {
 			uint16_t addr = prog[++i];
 			sout << "jmp\t";
-			if (labels.find(addr) == labels.end()) {
-				labels[addr] = "label" + std::to_string((label_count++));
+			if (addr >= 32768) {
+				sout << "reg" << (addr-32768);
+			} else {
+				if (labels.find(addr) == labels.end()) {
+					labels[addr] = "label" + std::to_string((label_count++));
+				}
+				sout << labels[addr];
 			}
-			sout << labels[addr];
 		} else if (op == 7) {
 			uint16_t test = prog[++i];
 			uint16_t addr = prog[++i];
@@ -57,10 +61,14 @@ void disassemble(size_t size) {
 			} else {
 				sout << "reg" << (test-32768) << "\t";
 			}
-			if (labels.find(addr) == labels.end()) {
-				labels[addr] = "label" + std::to_string((label_count++));
+			if (addr >= 32768) {
+				sout << "reg" << (addr-32768);
+			} else {
+				if (labels.find(addr) == labels.end()) {
+					labels[addr] = "label" + std::to_string((label_count++));
+				}
+				sout << labels[addr];
 			}
-			sout << labels[addr];
 		} else if (op == 8) {
 			uint16_t test = prog[++i];
 			uint16_t addr = prog[++i];
@@ -70,17 +78,25 @@ void disassemble(size_t size) {
 			} else {
 				sout << "reg" << (test-32768) << "\t";
 			}
-			if (labels.find(addr) == labels.end()) {
-				labels[addr] = "label" + std::to_string((label_count++));
+			if (addr >= 32768) {
+				sout << "reg" << (addr-32768);
+			} else {
+				if (labels.find(addr) == labels.end()) {
+					labels[addr] = "label" + std::to_string((label_count++));
+				}
+				sout << labels[addr];
 			}
-			sout << labels[addr];
 		} else if (op == 17) {
 			uint16_t addr = prog[++i];
 			sout << "call\t";
-			if (funcs.find(addr) == funcs.end()) {
-				funcs[addr] = "func" + std::to_string((func_count++));
+			if (addr >= 32768) {
+				sout << "reg" << (addr-32768);
+			} else {
+				if (funcs.find(addr) == funcs.end()) {
+					funcs[addr] = "func" + std::to_string((func_count++));
+				}
+				sout << funcs[addr];
 			}
-			sout << funcs[addr];
 		} else {
 			sout << ops[op] << "\t";
 			for (size_t j = 1; j <= params[op]; ++j) {
@@ -120,6 +136,14 @@ int main(int argc, char** argv) {
 	prog_file.close();
 
 	disassemble(prog_stat.st_size/2);
+
+	for (auto label : labels) {
+		std::cout << label.first << " " << label.second << std::endl;
+	}
+
+	for (auto func : funcs) {
+		std::cout << func.first << " " << func.second << std::endl;
+	}
 
 	std::ofstream outfile(strcat(argv[1], ".asm"), std::ios::out);
 	for (auto line : assem) {
