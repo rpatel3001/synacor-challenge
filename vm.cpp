@@ -214,5 +214,8 @@ int main(int argc, char** argv) {
 	// take advantage of x86 being little endian and read raw bytes into an array of uint16_t
 	prog_file.read((char*)prog, prog_stat.st_size);
 	prog_file.close();
+
+	std::cout << prog[6080] << " " << prog[6099] << std::endl;
+
 	execute();
 }

@@ -12,6 +12,14 @@ std::map<uint16_t, std::string> assem;
 std::map<uint16_t, std::string> funcs;
 std::map<uint16_t, std::string> labels;
 
+std::string regval(uint16_t val) {
+	if (val >= 32768) {
+		return "reg" + std::to_string(val-32768);
+	} else {
+		return std::to_string(val);
+	}
+}
+
 int params[] = {0, 2, 1, 1, 3, 3, 1, 2, 2, 3, 3, 3, 3, 3, 2, 2, 2, 1, 0, 1, 1, 0};
 std::string ops[] = {"halt", "set ", "push", "pop ", "eq  ", "gt  ", "jmp ", "jt  ", "jf  ", "add ", "mult", "mod ", "and ", "or  ", "not ", "rmem", "wmem", "call", "ret ", "out ", "in  ", "noop"};
 void disassemble(size_t size) {
@@ -97,6 +105,29 @@ void disassemble(size_t size) {
 				}
 				sout << funcs[addr];
 			}
+		} else if (op == 1) {
+			sout << "reg" << (prog[++i]-32768) << " = ";
+			uint16_t val2 = prog[++i];
+			sout << regval(val2);
+		} else if (op == 14) {
+			sout << "reg" << (prog[++i]-32768) << " = ~";
+			uint16_t val2 = prog[++i];
+			sout << regval(val2);
+		} else if (op >= 9 && op <= 13) {
+			sout << regval(prog[++i]) << " = ";
+			sout << regval(prog[++i]);
+			if(op == 9) {
+				sout << " + ";
+			} else if(op == 10) {
+				sout << " * ";
+			} else if(op == 11) {
+				sout << " % ";
+			} else if(op == 12) {
+				sout << " & ";
+			} else if(op == 13) {
+				sout << " | ";
+			}
+			sout << regval(prog[++i]);
 		} else {
 			sout << ops[op] << "\t";
 			for (size_t j = 1; j <= params[op]; ++j) {
@@ -136,14 +167,6 @@ int main(int argc, char** argv) {
 	prog_file.close();
 
 	disassemble(prog_stat.st_size/2);
-
-	for (auto label : labels) {
-		std::cout << label.first << " " << label.second << std::endl;
-	}
-
-	for (auto func : funcs) {
-		std::cout << func.first << " " << func.second << std::endl;
-	}
 
 	std::ofstream outfile(strcat(argv[1], ".asm"), std::ios::out);
 	for (auto line : assem) {

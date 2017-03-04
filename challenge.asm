@@ -1,96 +1,91 @@
-label28:
-	1023	rmem	reg0	6080	
-	1026	rmem	reg1	6099	
-	1029	add 	reg0	reg0	reg1	
-	1033	add 	reg0	reg0	1	
-	1037	wmem	6080	reg0	
-	1040	wmem	6099	44	
-	1043	set 	reg0	6080	
+	1037	mem[6080] = 10228
+	1040	mem[6099] = 44
+	1043	reg0 = 6080
 	1046	call	func2
-	1048	push	reg0	
-	1050	push	reg1	
-	1052	push	reg2	
-	1054	set 	reg0	26851	
-	1057	set 	reg1	1531	
-	1060	add 	reg2	1078	17609	
+	1048	push	reg0
+	1050	push	reg1
+	1052	push	reg2
+	1054	reg0 = 26851
+	1057	reg1 = 1531
+	1060	reg2 = 18687
 	1064	call	func3
-	1066	pop 	reg2	
-	1068	pop 	reg1	
-	1070	pop 	reg0	
+	1066	pop 	reg2
+	1068	pop 	reg1
+	1070	pop 	reg0
 	1072	jmp	label30
 func3:
-	1458	push	reg0	
-	1460	push	reg3	
-	1462	push	reg4	
-	1464	push	reg5	
-	1466	push	reg6	
-	1468	set 	reg6	reg0	
-	1471	set 	reg5	reg1	
-	1474	rmem	reg4	reg0	
-	1477	set 	reg1	0	
+	1458	push	reg0
+	1460	push	reg3
+	1462	push	reg4
+	1464	push	reg5
+	1466	push	reg6
+	1468	reg6 = reg0
+	1471	reg5 = reg1
+	1474	reg4 = mem[reg0]
+	1477	reg1 = 0
 label34:
-	1480	add 	reg3	1	reg1	
-	1484	gt  	reg0	reg3	reg4	
+	1480	reg3 = 1 + reg1
+	1484	gt  	reg0	reg3	reg4
 	1488	jt	reg0	label33
-	1491	add 	reg3	reg3	reg6	
-	1495	rmem	reg0	reg3	
+	1491	reg3 = reg3 + reg6
+	1495	reg0 = mem[reg3]
 	1498	call	reg5
-	1500	add 	reg1	reg1	1	
+	1500	reg1 = reg1 + 1
 	1504	jt	reg1	label34
 label33:
-	1507	pop 	reg6	
-	1509	pop 	reg5	
-	1511	pop 	reg4	
-	1513	pop 	reg3	
-	1515	pop 	reg0	
-	1517	ret 	
+	1507	pop 	reg6
+	1509	pop 	reg5
+	1511	pop 	reg4
+	1513	pop 	reg3
+	1515	pop 	reg0
+	1517	ret
 func2:
-	1518	push	reg1	
-	1520	set 	reg1	1528	
+	1518	push	reg1
+	1520	reg1 = 1528
 	1523	call	func3
-	1525	pop 	reg1	
-	1527	ret 	
+	1525	pop 	reg1
+	1527	ret
 	1528	out	reg0
-	1530	ret 	
-	1531	push	reg1	
-	1533	set 	reg1	reg2	
+	1530	ret
+	1531	push	reg1
+	1533	reg1 = reg2
 	1536	call	func4
 	1538	out	reg0
-	1540	pop 	reg1	
-	1542	ret 	
+	1540	pop 	reg1
+	1542	ret
 func5:
-	1543	push	reg1	
-	1545	push	reg3	
-	1547	rmem	reg3	reg0	
+	1543	push	reg1
+	1545	push	reg3
+	1547	reg3 = mem[reg0]
 	1550	jf	reg3	label35
 	1553	call	func3
 	1555	jt	reg1	label35
-	1558	set 	reg0	reg2	
+	1558	reg0 = reg2
 	1561	jmp	label36
 label35:
-	1563	set 	reg0	32767	
+	1563	reg0 = 32767
 label36:
-	1566	pop 	reg3	
-	1568	pop 	reg1	
-	1570	ret 	
+	1566	pop 	reg3
+	1568	pop 	reg1
+	1570	ret
 func9:
-	1571	push	reg1	
-	1573	push	reg2	
-	1575	set 	reg2	reg1	
-	1578	set 	reg1	1605	
+	1571	push	reg1
+	1573	push	reg2
+	1575	reg2 = reg1
+	1578	reg1 = 1605
 	1581	call	func5
-	1583	pop 	reg2	
-	1585	pop 	reg1	
-	1587	ret 	
+	1583	pop 	reg2
+	1585	pop 	reg1
+	1587	ret
 func10:
-	1588	push	reg1	
-	1590	push	reg2	
-	1592	set 	reg2	reg1	
-	1595	set 	reg1	1648	
+	1588	push	reg1
+	1590	push	reg2
+	1592	reg2 = reg1
+	1595	reg1 = 1648
 	1598	call	func5
-	1600	pop 	reg2	
-	1602	pop 	reg1	
-	1604	ret 	
+	1600	pop 	reg2
+	1602	pop 	reg1
+	1604	ret
 	1605	eq  	reg0	reg0	reg2	
 	1609	jf	reg0	label37
 	1612	set 	reg2	reg1	
