@@ -1,15 +1,3 @@
-	830	reg0 = 32766 * 15
-	834	reg1 = reg0 == 32738
-	838	jf	reg1	label20
-	841	jmp	label24
-label24:
-	845	reg0 = mem[843]
-	848	reg1 = reg0 == 20000
-	852	jf	reg1	label25
-	855	reg2 = 843 + 1
-	859	reg0 = mem[reg2]
-	862	reg1 = reg0 == 10000
-	866	jf	reg1	label25
 	869	reg0 = 843
 	872	mem[reg0] = 30000
 	875	reg2 = mem[reg0]
@@ -149,7 +137,7 @@ func2:
 	1530	ret 	
 	1531	push	reg1	
 	1533	reg1 = reg2
-	1536	call	func4
+	1536	call	XOR_reg0
 	1538	out	reg0
 	1540	pop 	reg1	
 	1542	ret 	
@@ -246,9 +234,9 @@ label43:
 	1730	reg0 = mem[reg1]
 	1733	push	reg1	
 	1735	reg1 = reg1 * reg1
-	1739	call	func4
+	1739	call	XOR_reg0
 	1741	reg1 = 16724
-	1744	call	func4
+	1744	call	XOR_reg0
 	1746	pop 	reg1	
 	1748	mem[reg1] = reg0
 	1751	reg1 = reg1 + 1
@@ -320,7 +308,7 @@ label50:
 	1915	push	reg0	
 	1917	push	reg1	
 	1919	reg1 = reg6
-	1922	call	func4
+	1922	call	XOR_reg0
 	1924	reg6 = reg0
 	1927	pop 	reg1	
 	1929	pop 	reg0	
@@ -401,7 +389,8 @@ label58:
 	2120	pop 	reg1	
 	2122	pop 	reg0	
 	2124	ret 	
-func4:
+XOR_reg0:
+	; reg0 = reg0 ^ reg1
 	2125	push	reg1	
 	2127	push	reg2	
 	2129	reg2 = reg0 & reg1
@@ -410,7 +399,8 @@ func4:
 	2140	reg0 = reg0 & reg2
 	2144	pop 	reg2	
 	2146	pop 	reg1	
-	2148	ret 	
+	2148	ret 
+
 	2149	reg0 = reg0 + reg1
 	2153	gt  	reg1	reg1	reg0	
 	2157	ret 	
@@ -1282,7 +1272,7 @@ func26:
 	4517	reg0 = mem[reg0]
 	4520	call	func25
 	4522	reg1 = reg2
-	4525	call	func4
+	4525	call	XOR_reg0
 	4527	pop 	reg1	
 	4529	mem[reg1] = reg0
 	4532	ret 	
@@ -1734,7 +1724,7 @@ label119:
 	5636	reg1 = mem[reg2]
 	5639	reg0 = reg0 + reg1
 	5643	reg0 = reg0 * 31660
-	5647	call	func4
+	5647	call	XOR_reg0
 	5649	reg1 = mem[27101]
 	5652	reg1 = reg1 + 27101
 	5656	reg2 = reg2 + 1
@@ -1780,9 +1770,9 @@ label118:
 	5751	pop 	reg0	
 	5753	reg0 = mem[3955]
 	5756	reg1 = mem[3956]
-	5759	call	func4
+	5759	call	XOR_reg0
 	5761	reg1 = mem[3957]
-	5764	call	func4
+	5764	call	XOR_reg0
 	5766	reg1 = 25919
 	5769	reg2 = 4
 	5772	push	reg3	

@@ -215,9 +215,7 @@ int main(int argc, char** argv) {
 	prog_file.read((char*)prog, prog_stat.st_size);
 	prog_file.close();
 
-	for(size_t i = 0; i < 843; ++i) {
-		prog[i] = 21;
-	}
+	IP = 978;
 
 	execute();
 }
