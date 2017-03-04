@@ -216,6 +216,6 @@ int main(int argc, char** argv) {
 	prog_file.close();
 
 	IP = 978;
-
-	execute();
+	std::cout << prog[940] << std::endl;
+	//execute();
 }

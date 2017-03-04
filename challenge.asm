@@ -29,7 +29,7 @@
 	993	reg0 = 6116
 	996	reg0 = reg0 + 1
 label29:
-	1000	gt  	reg3	reg0	reg2	
+	1000	reg3 = reg0 > reg2
 	1004	jt	reg3	label28
 	1007	reg4 = mem[reg0]
 	1010	mem[reg1] = reg4
@@ -113,7 +113,7 @@ func3:
 	1477	reg1 = 0
 label34:
 	1480	reg3 = 1 + reg1
-	1484	gt  	reg0	reg3	reg4	
+	1484	reg0 = reg3 > reg4
 	1488	jt	reg0	label33
 	1491	reg3 = reg3 + reg6
 	1495	reg0 = mem[reg3]
@@ -256,7 +256,7 @@ func8:
 	1784	reg5 = 0
 label45:
 	1787	reg0 = reg0 + 1
-	1791	gt  	reg3	reg0	reg2	
+	1791	reg3 = reg0 > reg2
 	1795	jt	reg3	label44
 	1798	in  	reg4	
 	1800	reg3 = reg4 == 10
@@ -291,7 +291,7 @@ label48:
 	1863	mem[reg5] = reg4
 	1866	reg6 = reg6 + 1
 	1870	reg5 = mem[6125]
-	1873	gt  	reg4	reg6	reg5	
+	1873	reg4 = reg6 > reg5
 	1877	jf	reg4	label48
 label51:
 	1880	reg3 = 0
@@ -315,7 +315,7 @@ label50:
 	1931	reg5 = mem[reg1]
 	1934	reg6 = reg6 % reg5
 	1938	reg6 = reg6 + 1
-	1942	gt  	reg5	reg6	reg2	
+	1942	reg5 = reg6 > reg2
 	1946	jt	reg5	label49
 	1949	reg3 = 1
 label49:
@@ -390,7 +390,6 @@ label58:
 	2122	pop 	reg0	
 	2124	ret 	
 XOR_reg0:
-	; reg0 = reg0 ^ reg1
 	2125	push	reg1	
 	2127	push	reg2	
 	2129	reg2 = reg0 & reg1
@@ -399,13 +398,12 @@ XOR_reg0:
 	2140	reg0 = reg0 & reg2
 	2144	pop 	reg2	
 	2146	pop 	reg1	
-	2148	ret 
-
+	2148	ret 	
 	2149	reg0 = reg0 + reg1
-	2153	gt  	reg1	reg1	reg0	
+	2153	reg1 = reg1 > reg0
 	2157	ret 	
 	2158	push	reg2	
-	2160	gt  	reg2	reg1	reg0	
+	2160	reg2 = reg1 > reg0
 	2164	reg1 = reg1 * 32767
 	2168	reg0 = reg0 + reg1
 	2172	reg1 = reg2
@@ -415,7 +413,7 @@ XOR_reg0:
 	2181	jf	reg1	label59
 	2184	push	reg2	
 	2186	push	reg3	
-	2188	gt  	reg2	reg1	reg0	
+	2188	reg2 = reg1 > reg0
 	2192	jt	reg2	label60
 	2195	reg2 = reg0
 	2198	reg0 = reg1
@@ -425,7 +423,7 @@ label60:
 	2207	reg0 = 0
 label62:
 	2210	reg0 = reg0 + reg1
-	2214	gt  	reg3	reg1	reg0	
+	2214	reg3 = reg1 > reg0
 	2218	jt	reg3	label61
 	2221	reg2 = reg2 + 32767
 	2225	jt	reg2	label62
@@ -458,7 +456,7 @@ label64:
 	2280	ret 	
 func24:
 	2281	push	reg1	
-	2283	gt  	reg1	reg0	14	
+	2283	reg1 = reg0 > 14
 	2287	jt	reg1	label66
 	2290	reg1 = reg0
 	2293	reg0 = 1
@@ -1199,14 +1197,14 @@ func19:
 	4344	jt	reg1	label99
 	4347	reg1 = mem[3952]
 	4350	mem[3952] = reg0
-	4353	gt  	reg2	reg0	reg1	
+	4353	reg2 = reg0 > reg1
 	4357	jf	reg2	label100
 	4360	push	reg0	
 	4362	reg0 = 26235
 	4365	call	func2
 	4367	pop 	reg0	
 label100:
-	4369	gt  	reg2	reg1	reg0	
+	4369	reg2 = reg1 > reg0
 	4373	jf	reg2	label101
 	4376	push	reg0	
 	4378	reg0 = 26267
@@ -1233,7 +1231,7 @@ func22:
 	4413	push	reg4	
 	4415	push	reg5	
 	4417	reg5 = mem[3953]
-	4420	gt  	reg3	reg5	29999	
+	4420	reg3 = reg5 > 29999
 	4424	jt	reg3	label102
 	4427	reg5 = reg5 + 1
 	4431	mem[3953] = reg5
@@ -1728,7 +1726,7 @@ label119:
 	5649	reg1 = mem[27101]
 	5652	reg1 = reg1 + 27101
 	5656	reg2 = reg2 + 1
-	5660	gt  	reg1	reg2	reg1	
+	5660	reg1 = reg2 > reg1
 	5664	jf	reg1	label119
 	5667	reg1 = 25866
 	5670	reg2 = 32767
@@ -1915,7 +1913,7 @@ label128:
 	20166	call	func30
 	20298	mem[7897] = 16300
 	20794	call	func31
-	21607	gt  	11120	21024	31428	
+	21607	11120 = 21024 > 31428
 	22195	12193 = mem[23244]
 	26837	push	21442	
 	28419	25197 = 19537 == 11899

@@ -138,6 +138,10 @@ void disassemble(size_t size) {
 			sout << regval(prog[++i]) << " = ";
 			sout << regval(prog[++i]) << " == ";
 			sout << regval(prog[++i]);
+		} else if (op == 5) {
+			sout << regval(prog[++i]) << " = ";
+			sout << regval(prog[++i]) << " > ";
+			sout << regval(prog[++i]);
 		} else {
 			sout << ops[op] << "\t";
 			for (size_t j = 1; j <= params[op]; ++j) {
