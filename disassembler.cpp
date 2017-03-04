@@ -128,6 +128,16 @@ void disassemble(size_t size) {
 				sout << " | ";
 			}
 			sout << regval(prog[++i]);
+		} else if (op == 15) {
+			sout << regval(prog[++i]) << " = mem[";
+			sout << regval(prog[++i]) << "]";
+		} else if (op == 16) {
+			sout << "mem[" << regval(prog[++i]) << "] = ";
+			sout << regval(prog[++i]);
+		} else if (op == 4) {
+			sout << regval(prog[++i]) << " = ";
+			sout << regval(prog[++i]) << " == ";
+			sout << regval(prog[++i]);
 		} else {
 			sout << ops[op] << "\t";
 			for (size_t j = 1; j <= params[op]; ++j) {

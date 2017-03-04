@@ -215,7 +215,9 @@ int main(int argc, char** argv) {
 	prog_file.read((char*)prog, prog_stat.st_size);
 	prog_file.close();
 
-	std::cout << prog[6080] << " " << prog[6099] << std::endl;
+	for(size_t i = 0; i < 843; ++i) {
+		prog[i] = 21;
+	}
 
 	execute();
 }
