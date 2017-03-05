@@ -220,12 +220,28 @@ int main(int argc, char** argv) {
 
 	//std::cout << prog[940] << std::endl;
 
+	// unjumble this section of the program
 	for (size_t i = 6068; i < 30050; ++i) {
 		prog[i] = prog[i] ^ 16724 ^ ((i * i) % 32768);
 	}
 
+	// set up registers for where we start executing
 	REG[0] = 6117;
 	REG[1] = 6091;
 	REG[2] = prog[6116] + 6116;
-	execute(1000, 30050);
+
+	while (REG[0] <= REG[2]) {
+		prog[REG[1]] = prog[REG[0]];
+		++REG[0];
+		++REG[1];
+	}
+	for(size_t i = 0; i < 200; ++i) {
+		//std::cout << (char)(prog[28844+i]^8176);
+	}
+	std::cout << std::endl << std::endl;
+	// execute at an offset
+	REG[7] = 25734;
+	execute(1023, 5489);
+	REG[0] = 6;
+	execute(5491, 30050);
 }
