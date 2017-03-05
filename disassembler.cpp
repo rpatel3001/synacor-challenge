@@ -20,6 +20,10 @@ std::string regval(uint16_t val) {
 	}
 }
 
+void func3() {
+	
+}
+
 int params[] = {0, 2, 1, 1, 3, 3, 1, 2, 2, 3, 3, 3, 3, 3, 2, 2, 2, 1, 0, 1, 1, 0};
 std::string ops[] = {"halt", "set ", "push", "pop ", "eq  ", "gt  ", "jmp ", "jt  ", "jf  ", "add ", "mult", "mod ", "and ", "or  ", "not ", "rmem", "wmem", "call", "ret ", "out ", "in  ", "noop"};
 void disassemble(size_t size) {
@@ -118,13 +122,13 @@ void disassemble(size_t size) {
 			sout << regval(prog[++i]);
 			if(op == 9) {
 				sout << " + ";
-			} else if(op == 10) {
+			} else if (op == 10) {
 				sout << " * ";
-			} else if(op == 11) {
+			} else if (op == 11) {
 				sout << " % ";
-			} else if(op == 12) {
+			} else if (op == 12) {
 				sout << " & ";
-			} else if(op == 13) {
+			} else if (op == 13) {
 				sout << " | ";
 			}
 			sout << regval(prog[++i]);
@@ -180,9 +184,19 @@ int main(int argc, char** argv) {
 	prog_file.read((char*)prog, prog_stat.st_size);
 	prog_file.close();
 
-	for(size_t i = 6068; i < 30050; ++i) {
+	for (size_t i = 6068; i < 30050; ++i) {
 		prog[i] = prog[i] ^ 16724 ^ ((i * i) % 32768);
 	}
+
+	prog[6069] = 84;
+
+	int j = prog[6116] + 6117;
+	for (size_t i = 0; i < j; ++i) {
+		prog[6091 + i] = prog[6117 + i];
+	}
+
+	prog[6080] = prog[6080] + prog[6099] + 1;
+	prog[6099] = 44;
 
 	disassemble(prog_stat.st_size/2);
 

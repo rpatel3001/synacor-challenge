@@ -219,6 +219,13 @@ int main(int argc, char** argv) {
 	prog_file.close();
 
 	//std::cout << prog[940] << std::endl;
-	execute(885, 887);
-	execute(978, 30050);
+
+	for (size_t i = 6068; i < 30050; ++i) {
+		prog[i] = prog[i] ^ 16724 ^ ((i * i) % 32768);
+	}
+
+	REG[0] = 6117;
+	REG[1] = 6091;
+	REG[2] = prog[6116] + 6116;
+	execute(1000, 30050);
 }
