@@ -1,33 +1,11 @@
-	869	reg0 = 843
-	872	mem[reg0] = 30000
-	875	reg2 = mem[reg0]
-	878	reg1 = reg2 == 30000
-	882	jf	reg1	label26
-	885	call	func1
-	887	reg0 = mem[6068]
-	890	reg1 = reg0 == 11
-	894	jf	reg1	label25
-	897	reg2 = 6068 + 1
-	901	reg0 = mem[reg2]
-	904	reg1 = reg0 == 116
-	908	jf	reg1	label25
-	911	mem[reg2] = 84
-	914	reg0 = mem[reg2]
-	917	reg1 = reg0 == 116
-	921	jt	reg1	label26
-	924	reg1 = reg0 == 84
-	928	jf	reg1	label26
-	931	mem[937] = 21
-	934	mem[938] = 7
-	937	jmp	label27
-	939	out	"Òwmem opwrite fail\n"
-	977	halt	
-	978	reg1 = 10 + 6080
-	982	reg1 = reg1 + 1
+for (reg1 = 6068, reg1 < 30050, ++reg1) {
+	1748	mem[reg1] = mem[reg1] ^ 16724 ^ (reg1 * reg1)
+}	
+
+	978	reg1 = 6091
 	986	reg2 = mem[6116]
 	989	reg2 = reg2 + 6116
-	993	reg0 = 6116
-	996	reg0 = reg0 + 1
+	993	reg0 = 6117
 label29:
 	1000	reg3 = reg0 > reg2
 	1004	jt	reg3	label28
@@ -55,28 +33,7 @@ label28:
 	1066	pop 	reg2	
 	1068	pop 	reg1	
 	1070	pop 	reg0	
-	1072	jmp	label30
-label7:
-	1074	out	"no jt/jf\n"
-	1092	halt	
-label10:
-	1093	out	"nonzero reg\n"
-	1117	halt	
-label11:
-	1118	out	"no set op\n"
-	1138	halt	
-label15:
-	1139	out	"no gt op\n"
-	1157	halt	
-label14:
-	1158	out	"no stack\n"
-	1176	halt	
-label16:
-	1177	out	"no bitwise and\n"
-	1207	halt	
-label18:
-	1208	out	"no bitwise not\n"
-	1238	halt	
+	1072	jmp	label30	
 label25:
 	1239	out	"no rmem op\n"
 	1261	halt	
@@ -137,7 +94,7 @@ func2:
 	1530	ret 	
 	1531	push	reg1	
 	1533	reg1 = reg2
-	1536	call	XOR_reg0
+	1536	reg0 = reg0 ^ reg1
 	1538	out	reg0
 	1540	pop 	reg1	
 	1542	ret 	
@@ -226,25 +183,6 @@ label42:
 	1718	pop 	reg2	
 	1720	pop 	reg1	
 	1722	ret 	
-func1:
-	1723	push	reg0	
-	1725	push	reg1	
-	1727	reg1 = 6068
-label43:
-	1730	reg0 = mem[reg1]
-	1733	push	reg1	
-	1735	reg1 = reg1 * reg1
-	1739	call	XOR_reg0
-	1741	reg1 = 16724
-	1744	call	XOR_reg0
-	1746	pop 	reg1	
-	1748	mem[reg1] = reg0
-	1751	reg1 = reg1 + 1
-	1755	reg0 = 30050 == reg1
-	1759	jf	reg0	label43
-	1762	pop 	reg1	
-	1764	pop 	reg0	
-	1766	ret 	
 func8:
 	1767	push	reg0	
 	1769	push	reg2	
@@ -308,7 +246,7 @@ label50:
 	1915	push	reg0	
 	1917	push	reg1	
 	1919	reg1 = reg6
-	1922	call	XOR_reg0
+	1922	reg0 = reg0 ^ reg1
 	1924	reg6 = reg0
 	1927	pop 	reg1	
 	1929	pop 	reg0	
@@ -389,16 +327,6 @@ label58:
 	2120	pop 	reg1	
 	2122	pop 	reg0	
 	2124	ret 	
-XOR_reg0:
-	2125	push	reg1	
-	2127	push	reg2	
-	2129	reg2 = reg0 & reg1
-	2133	reg2 = ~reg2
-	2136	reg0 = reg0 | reg1
-	2140	reg0 = reg0 & reg2
-	2144	pop 	reg2	
-	2146	pop 	reg1	
-	2148	ret 	
 	2149	reg0 = reg0 + reg1
 	2153	reg1 = reg1 > reg0
 	2157	ret 	
@@ -1270,7 +1198,7 @@ func26:
 	4517	reg0 = mem[reg0]
 	4520	call	func25
 	4522	reg1 = reg2
-	4525	call	XOR_reg0
+	4525	reg0 = reg0 ^ reg1
 	4527	pop 	reg1	
 	4529	mem[reg1] = reg0
 	4532	ret 	
@@ -1722,7 +1650,7 @@ label119:
 	5636	reg1 = mem[reg2]
 	5639	reg0 = reg0 + reg1
 	5643	reg0 = reg0 * 31660
-	5647	call	XOR_reg0
+	5647	reg0 = reg0 ^ reg1
 	5649	reg1 = mem[27101]
 	5652	reg1 = reg1 + 27101
 	5656	reg2 = reg2 + 1
@@ -1768,9 +1696,9 @@ label118:
 	5751	pop 	reg0	
 	5753	reg0 = mem[3955]
 	5756	reg1 = mem[3956]
-	5759	call	XOR_reg0
+	5759	reg0 = reg0 ^ reg1
 	5761	reg1 = mem[3957]
-	5764	call	XOR_reg0
+	5764	reg0 = reg0 ^ reg1
 	5766	reg1 = 25919
 	5769	reg2 = 4
 	5772	push	reg3	

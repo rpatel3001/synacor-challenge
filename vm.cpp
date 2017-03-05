@@ -46,9 +46,12 @@ void print_context(uint16_t mem) {
 	std::cout << std::endl;
 }
 
-void execute() {
-	int i = 0;
+void execute(size_t beg, size_t end) {
+	IP=beg;
 	while (1) {
+		if(IP == end) {
+			return;
+		}
 		uint16_t op = prog[IP++];
 		if (1) {
 			if (DEBUG) {
@@ -215,7 +218,7 @@ int main(int argc, char** argv) {
 	prog_file.read((char*)prog, prog_stat.st_size);
 	prog_file.close();
 
-	IP = 978;
-	std::cout << prog[940] << std::endl;
-	//execute();
+	//std::cout << prog[940] << std::endl;
+	execute(885, 887);
+	execute(978, 30050);
 }

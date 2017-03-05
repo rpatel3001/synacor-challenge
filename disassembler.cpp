@@ -180,6 +180,10 @@ int main(int argc, char** argv) {
 	prog_file.read((char*)prog, prog_stat.st_size);
 	prog_file.close();
 
+	for(size_t i = 6068; i < 30050; ++i) {
+		prog[i] = prog[i] ^ 16724 ^ ((i * i) % 32768);
+	}
+
 	disassemble(prog_stat.st_size/2);
 
 	std::ofstream outfile(strcat(argv[1], ".asm"), std::ios::out);
