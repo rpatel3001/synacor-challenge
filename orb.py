@@ -30,7 +30,7 @@ while len(Q) != 0:
 			else:
 				continue
 	except SystemExit:
-		pass#raise
+		raise
 	except:
 		pass
 	if pos[0] != 0:
